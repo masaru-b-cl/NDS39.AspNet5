@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.AspNet.Builder;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
-using System.Diagnostics;
+
+using NDS39.AspNet5.App;
 
 namespace NDS39.AspNet5.Web
 {
@@ -9,16 +9,14 @@ namespace NDS39.AspNet5.Web
 	{
 		public void Configure(IApplicationBuilder app)
 		{
-			app.UseMiddleware<MinimalMiddleware>();
+			app.UseAuthBasic((user, password) => user == password);
 
 			app.Run(async context =>
 				{
-					Debug.WriteLine("@@@ run core app @@@");
-
 					var response = context.Response;
 					response.StatusCode = 200;
 					response.ContentType = "text/plain";
-					await response.WriteAsync("Hello world");
+					await response.WriteAsync(string.Format("Hello {0}", context.User.Identity.Name));
 				});
 		}
 	}
