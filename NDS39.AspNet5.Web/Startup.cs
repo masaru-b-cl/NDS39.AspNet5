@@ -9,12 +9,7 @@ namespace NDS39.AspNet5.Web
 	{
 		public void Configure(IApplicationBuilder app)
 		{
-			app.Use(async (context, next) =>
-				{
-					Debug.WriteLine("@@@ start middleware @@@");
-					await next();
-					Debug.WriteLine("@@@ end middleware @@@");
-				});
+			app.UseMiddleware<MinimalMiddleware>();
 
 			app.Run(async context =>
 				{
